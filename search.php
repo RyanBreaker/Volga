@@ -63,10 +63,15 @@ while ($search->fetch())
 
 <main>
     <?php
-    foreach($genreResults as $result) {
-        echo "";
-    }
-    ?>
+    foreach($genreResults as $result):?>
+        <div class="book">
+            <a href="/product.php?isbn=<?$result["isbn"]?>">
+                <img src="/images/<?$result["imageFilename"]?>">
+                <h4><?$result["title"]?></h4>
+                <h5 class="author">TODO</h5>
+            </a>
+        </div>
+    <? endforeach;  // I HAD NO IDEA PHP HAD THIS, MY MIND IS BLOWN ?>
 </main>
 
 <footer>
