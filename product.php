@@ -25,12 +25,11 @@ require_once "db/mysql.php";
 
             while($genre = $genres->fetch_assoc()):?>
                 <li>
-                    <a href="/search.php?genre=<?$genre['genreId']?>">
-                        <? $genre['genreName'] ?>
+                    <a href="/search.php?genre=<?php echo $genre['genreId']?>">
+                        <?php echo $genre['genreName'] ?>
                     </a>
                 </li>
-            <?
-            endwhile;
+            <?php endwhile;
             $genres->free();
             ?>
         </ul>

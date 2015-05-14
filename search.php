@@ -8,7 +8,7 @@ $search = $mysqli->prepare("SELECT tblbooks.isbn, title, price, imageFilename FR
                               ON tblbooksgenresxref.isbn=tblbooks.isbn AND
                                  tblbooksgenresxref.genreId=?");
 
-$genreResults = [];
+$genreResults = array();
 
 $search->bind_param("i", $genreId);
 $search->execute();
@@ -16,8 +16,8 @@ $search->execute();
 $search->bind_result($isbn, $title, $price, $imageFilename);
 
 while ($search->fetch())
-    $genreResults[] = ["isbn" => $isbn, "title" => $title, "price" => $price, "imageFilename" => $imageFilename];
-
+    $genreResults[] = array("isbn" => $isbn, "title" => $title, "price" => $price, "imageFilename" => $imageFilename);
+$search->free_result();
 ?>
 
 <!DOCTYPE html>
@@ -65,13 +65,13 @@ while ($search->fetch())
     <?php
     foreach($genreResults as $result):?>
         <div class="book">
-            <a href="/product.php?isbn=<?$result["isbn"]?>">
-                <img src="/images/<?$result["imageFilename"]?>">
-                <h4><?$result["title"]?></h4>
+            <a href="/product.php?isbn=<?php echo $result["isbn"]?>">
+                <img src="/images/<?php echo $result["imageFilename"]?>">
+                <h4><?php echo $result["title"]?></h4>
                 <h5 class="author">TODO</h5>
             </a>
         </div>
-    <? endforeach;  // I HAD NO IDEA PHP HAD THIS, MY MIND IS BLOWN ?>
+    <?php endforeach;  // I HAD NO IDEA PHP HAD THIS, MY MIND IS BLOWN ?>
 </main>
 
 <footer>

@@ -23,11 +23,14 @@ require_once "db/mysql.php";
 			<?php
             $genres = $mysqli->query("SELECT * FROM tblgenres");
 
-            while($genre = $genres->fetch_assoc()) {
-                echo "<li><a href=\"/search.php?genre={$genre['genreId']}\">{$genre['genreName']}</a></li>";
-            }
-
-            $genres->free();
+            while($genre = $genres->fetch_assoc()): ?>
+                <li>
+                    <a href="/search.php?genre=<?php echo $genre["genreId"] ?>">
+                        <?php echo $genre["genreName"] ?>
+                    </a>
+                </li>
+			<?php endwhile;
+            $genres->close();
 			?>
 		</ul>
 	</nav>
