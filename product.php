@@ -50,6 +50,8 @@ include "header.php";
 
         <h4><?php echo '$' . $price ?></h4>
 
+        <h5>ISBN: <?php echo $isbn ?></h5>
+
         <p>
             <?php echo $description ?>
         </p>

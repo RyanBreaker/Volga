@@ -23,7 +23,7 @@ require_once "db/mysql.php";
 <header>
     <a href="index.php"><h1 id="logo">Volga.</h1></a>
     <nav>
-        <h2><label for="genre-chooser">Genre</label></h2>
+        <h2><label for="genre-chooser">Search</label></h2>
         <select id="genre-chooser">
             <option disabled selected>View by genre...</option>
             <?php
@@ -34,12 +34,30 @@ require_once "db/mysql.php";
             $genres->close();
             ?>
         </select>
+        <hr>
+        <form action="search.php" method="get">
+            <table>
+                <tr>
+                    <td><label for="searchby-title">Title:</label></td>
+                    <td><input name="title" id="searchby-title" type="text"></td>
+                </tr>
+                <tr>
+                    <td><label for="searchby-author">Author:</label></td>
+                    <td><input name="author" id="searchby-author" type="text"></td>
+                </tr>
+                <tr>
+                    <td><label for="searchby-isbn">ISBN:</label></td>
+                    <td><input name="isbn" id="searchby-isbn" type="text"></td>
+                </tr>
+            </table>
+            <button type="submit">Search</button>
+        </form>
     </nav>
     <form id="login">
         <label for="uname">Username: </label>
         <input type="text" id="uname"><br>
         <label for="pass-login">Password: </label>
         <input type="password" id="pass-login"><br>
-        <a href="register.html">Register</a>
+        <a href="register.php">Register</a>
     </form>
 </header>
