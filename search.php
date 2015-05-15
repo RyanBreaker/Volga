@@ -2,11 +2,17 @@
 require_once "db/mysql.php";
 
 $genreId = intval($_GET["genre"]);
+if ($genreId <= 0)
+    $genreId = 1;
 
-$search = $mysqli->prepare("SELECT tblbooks.isbn, title, price, imageFilename FROM tblbooks
+$search = $mysqli->prepare("SELECT tblbooks.isbn,
+                                   tblbooks.title,
+                                   tblbooks.price,
+                                   tblbooks.imageFilename
+                            FROM tblbooks
                               JOIN tblbooksgenresxref
-                              ON tblbooksgenresxref.isbn=tblbooks.isbn AND
-                                 tblbooksgenresxref.genreId=?");
+                                ON tblbooksgenresxref.isbn=tblbooks.isbn AND
+                                   tblbooksgenresxref.genreId=?");
 
 $genreResults = array();
 
@@ -18,65 +24,22 @@ $search->bind_result($isbn, $title, $price, $imageFilename);
 while ($search->fetch())
     $genreResults[] = array("isbn" => $isbn, "title" => $title, "price" => $price, "imageFilename" => $imageFilename);
 $search->free_result();
+
+include "header.php";
 ?>
 
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Volga</title>
-    <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
-    <script src="//use.typekit.net/sam3app.js"></script>
-    <script>try {
-            Typekit.load();
-        } catch (e) {
-        }</script>
-    <meta name="keywords" content="Books">
-    <meta name="Description" content="Awesome books!">
-</head>
-<body>
-
-<header>
-    <a href="index.php"><h1 id="logo">Volga.</h1></a>
-    <nav>
-        <h2>Genres</h2>
+    <main>
         <ul>
             <?php
-            $genres = $mysqli->query("SELECT * FROM tblgenres");
-
-            while ($genre = $genres->fetch_assoc()) {
-                echo "<li><a href=\"/search.php?genre={$genre['genreId']}\">{$genre['genreName']}</a></li>";
-            }
-
-            $genres->free();
-            ?>
+            foreach ($genreResults as $result): ?>
+                <li class="book">
+                    <a href="/product.php?isbn=<?php echo $result["isbn"] ?>">
+                        <img src="/images/<?php echo $result["imageFilename"] ?>">
+                        <h4><?php echo $result["title"] ?></h4>
+                    </a>
+                </li>
+            <?php endforeach;  // I HAD NO IDEA PHP HAD THIS, MY MIND IS BLOWN ?>
         </ul>
-    </nav>
-    <form id="login">
-        <label for="uname">Username: </label>
-        <input type="text" id="uname"><br>
-        <label for="pass-login">Password: </label>
-        <input type="password" id="pass-login"><br>
-        <a href="register.html">Register</a>
-    </form>
-</header>
+    </main>
 
-<main>
-    <?php
-    foreach($genreResults as $result):?>
-        <div class="book">
-            <a href="/product.php?isbn=<?php echo $result["isbn"]?>">
-                <img src="/images/<?php echo $result["imageFilename"]?>">
-                <h4><?php echo $result["title"]?></h4>
-                <h5 class="author">TODO</h5>
-            </a>
-        </div>
-    <?php endforeach;  // I HAD NO IDEA PHP HAD THIS, MY MIND IS BLOWN ?>
-</main>
-
-<footer>
-    Volga Books&copy;
-</footer>
-
-</body>
-</html>
+<?php include "footer.php";

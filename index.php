@@ -1,55 +1,23 @@
 <?php
 require_once "db/mysql.php";
+
+$allProducts = $mysqli->query("SELECT * FROM tblbooks");
+
+include "header.php";
 ?>
 
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Volga</title>
-	<link href="stylesheets/style.css" rel="stylesheet" type="text/css">
-	<script src="//use.typekit.net/sam3app.js"></script>
-	<script>try{Typekit.load();}catch(e){}</script>
-	<meta name="keywords" content="Books">
-	<meta name="Description" content="Awesome books!">
-</head>
-<body>
-
-<header>
-	<a href="index.php"><h1 id="logo">Volga.</h1></a>
-	<nav>
-		<h2>Genres</h2>
-		<ul>
-			<?php
-            $genres = $mysqli->query("SELECT * FROM tblgenres");
-
-            while($genre = $genres->fetch_assoc()): ?>
-                <li>
-                    <a href="/search.php?genre=<?php echo $genre["genreId"] ?>">
-                        <?php echo $genre["genreName"] ?>
+    <main>
+        <ul>
+            <?php
+            while ($product = $allProducts->fetch_assoc()): ?>
+                <li class="book">
+                    <a href="/product.php?isbn=<?php echo $product['isbn'] ?>">
+                        <img src="/images/<?php echo $product["imageFilename"] ?>">
+                        <h4><?php echo $product["title"] ?></h4>
                     </a>
                 </li>
-			<?php endwhile;
-            $genres->close();
-			?>
-		</ul>
-	</nav>
-	<form id="login">
-		<label for="uname">Username: </label>
-		<input type="text" id="uname"><br>
-		<label for="pass-login">Password: </label>
-		<input type="password" id="pass-login"><br>
-		<a href="register.html">Register</a>
-	</form>
-</header>
+            <?php endwhile ?>
+        </ul>
+    </main>
 
-<main>
-	
-</main>
-
-<footer>
-	Volga Books&copy;
-</footer>
-
-</body>
-</html>
+<?php include "footer.php";
