@@ -33,8 +33,8 @@ include "header.php";
             <?php
             foreach ($genreResults as $result): ?>
                 <li class="book">
-                    <a href="/product.php?isbn=<?php echo $result["isbn"] ?>">
-                        <img src="/images/<?php echo $result["imageFilename"] ?>">
+                    <a href="product.php?isbn=<?php echo $result["isbn"] ?>">
+                        <img src="images/<?php echo $result["imageFilename"] ?>">
                         <h4><?php echo $result["title"] ?></h4>
                     </a>
                 </li>

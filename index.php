@@ -11,8 +11,8 @@ include "header.php";
             <?php
             while ($product = $allProducts->fetch_assoc()): ?>
                 <li class="book">
-                    <a href="/product.php?isbn=<?php echo $product['isbn'] ?>">
-                        <img src="/images/<?php echo $product["imageFilename"] ?>">
+                    <a href="product.php?isbn=<?php echo $product['isbn'] ?>">
+                        <img src="images/<?php echo $product["imageFilename"] ?>">
                         <h4><?php echo $product["title"] ?></h4>
                     </a>
                 </li>
